@@ -20,27 +20,52 @@ Unlike the original CoLD framework, which permanently removes samples identified
 
 # Main Enhancement
 
-The proposed **CoLD++** framework extends the original CoLD recovery stage through **Label Correction instead of Sample Removal**.
+The proposed **CoLD++** framework extends the original **CoLD** framework by introducing a **multi-stage label recovery mechanism** that recovers reliable samples discarded during the original denoising process instead of permanently removing them.
 
-The recovery pipeline consists of four stages:
+As illustrated in Figure 1, the proposed framework consists of the following stages.
 
-### 1. Multi-view Agreement
+### 1. Original CoLD Denoising
 
-Samples discarded by the original CoLD purification stage are revisited. Only samples receiving unanimous agreement across the Global View and all Local Views are considered recovery candidates.
+The original CoLD framework is first executed without any modification. Multi-view clustering together with GMM-based noise detection separates the training data into:
 
-### 2. Classifier Verification
+- Kept (clean) samples
+- Discarded (potentially noisy) samples
 
-A downstream classifier trained using the purified samples predicts labels for all recovery candidates.
+These kept samples are then used to train the downstream classifier.
 
-### 3. Label Correction
+---
 
-A candidate sample is recovered only when the classifier prediction matches the collaborative agreement label. This minimizes the risk of introducing incorrectly recovered samples.
+### 2. Candidate Recovery using Agreement and Classifier Matching
 
-### 4. Selective Sample Reintegration
+Discarded samples are reconsidered through a two-stage verification process.
 
-Recovered samples are assigned corrected labels and merged back into the purified training set. The downstream classifier is then retrained using both purified and recovered samples.
+#### (a) Majority Agreement
 
-This strategy preserves informative training samples that would otherwise be discarded, leading to improved downstream intrusion detection performance.
+Each discarded sample receives labels from all collaborative views. An agreement score is computed based on the number of views predicting the same label. Only samples whose agreement score exceeds a predefined threshold are selected as recovery candidates.
+
+#### (b) Classifier Verification
+
+The downstream classifier trained on the purified dataset predicts labels for all candidate samples.
+
+#### (c) Label Matching
+
+A candidate sample is recovered only when the classifier prediction matches the majority agreement label. This dual verification reduces the probability of recovering incorrectly labeled samples.
+
+---
+
+### 3. Top-k Sample Selection
+
+Among the verified recovery candidates, only the top-*k* samples are selected for recovery. This limits the number of recovered samples while ensuring that only highly reliable candidates are added back to the training set.
+
+---
+
+### 4. Retraining and Evaluation
+
+The recovered samples are merged with the original clean samples to construct the final training dataset.
+
+The downstream classifier is retrained on this updated dataset and evaluated on the clean test set using Macro-F1 score.
+
+This recovery strategy preserves informative samples that would otherwise be discarded by the original CoLD framework, thereby improving the robustness of learning under noisy-label conditions.
 
 ---
 
