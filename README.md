@@ -9,7 +9,7 @@ Unlike the original CoLD framework, which permanently removes samples identified
 # Framework Overview
 
 <p align="center">
-  <img src="figures/CoLD++_figure.png" width="900">
+  <img src="figure/CoLD++_figure.png" width="900">
 </p>
 
 <p align="center">
