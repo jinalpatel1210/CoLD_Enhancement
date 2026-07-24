@@ -1,1 +1,55 @@
+dataset: maltls22
+data_dir: ./data
+results_dir: ./results
+n_classes: 23
+
+noise_type: asys
+noise_rate: 0.4
+feature_reordering: false
+use_standard_scaler: false
+
+n_subsets: 4
+overlap: 0.75
+aggregation: mean
+
+hidden_dim: 117
+latent_dim: 117
+normalize_projection: true
+p_norm: 2
+dropout: 0.0
+
+masking_ratio: 0.3
+contrastive_loss: true
+distance_loss: false
+cosine_similarity: false
+use_reconstruction_loss: true
+tau: 0.1
+
+pretrain_epochs: 15
+batch_size: 32
+learning_rate: 0.001
+seed: 57
+eval_seed: 1
+
+save_encoder: true
+load_encoder_if_exists: true
+force_pretrain: false
+purify: true
+cluster_method: gmm
+cluster_random_state: 0
+classifier: xgboost
+classifier_epochs: 50
+classifier_lr: 0.001
+
+device: auto
+num_workers: 0
+verbose: true
+
+high_threshold: 0.85
+low_threshold: 0.60
+
+
+reliability_weight: 0.60
+neighbour_weight: 0.40
+
 
