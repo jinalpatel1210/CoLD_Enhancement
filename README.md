@@ -69,17 +69,6 @@ This recovery strategy preserves informative samples that would otherwise be dis
 
 ---
 
-# Additional Experimental Analysis
-
-Apart from the proposed CoLD++ framework, the repository also includes two additional experimental studies:
-
-- **Diversified Sample Selection**
-- **Adaptive Maximum Probability Threshold**
-
-These experiments are provided for analysis purposes only and are **not part of the proposed CoLD++ framework**.
-
----
-
 # Repository Structure
 
 ```text
